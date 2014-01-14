@@ -3,10 +3,11 @@
 
 	var Chat = ChatApp.Chat = function (socket) {
 		this.socket = socket;
+		this.room = "lobby"
 	};
 
 	Chat.prototype.sendMessage = function (message) {
-		this.socket.emit("message", message);
+		this.socket.emit("message", {message: message, room: this.room});
 	};
 
 	Chat.prototype.listenForMessages = function() {
@@ -28,14 +29,18 @@
 	Chat.prototype.listenForRoomUpdate = function() {
 		this.socket.on("room update", function(data) {
 			$("#users").empty();
-
 			var users = data.nicknames;
-			console.log(data.nicknames)
 			users.forEach( function(user) {
-				var $user = $("<li>").text(user)
-				$("#users").append($user)
+				if (user) {
+					var $user = $("<li>").text(user)
+					$("#users").append($user)
+				}
 			})
 		})
+	};
+
+	Chat.prototype.listenForNewRoom = function (data) {
+		this.room = data;
 	};
 
 })(this)

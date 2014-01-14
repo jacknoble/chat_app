@@ -3,6 +3,8 @@ $(function() {
 
 	var chat = new ChatApp.Chat(socket);
 
+	$("#room_name").text(chat.room);
+
 	var getMessage = function() {
 		$("#new_message_form").on("submit", function(event) {
 			event.preventDefault();
@@ -17,6 +19,7 @@ $(function() {
 	chat.listenForMessages();
 	chat.listenForNameChange();
 	chat.listenForRoomUpdate();
+	chat.listenForNewRoom();
 })
 
 
