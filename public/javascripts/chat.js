@@ -39,8 +39,11 @@
 		})
 	};
 
-	Chat.prototype.listenForNewRoom = function (data) {
-		this.room = data;
+	Chat.prototype.listenForNewRoom = function () {
+    this.socket.on("new room", function(data) {
+      this.room = data;
+      $("#room_name").text(this.room);
+    })
 	};
 
 })(this)
