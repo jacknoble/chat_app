@@ -11,9 +11,31 @@
 
 	Chat.prototype.listenForMessages = function() {
 		this.socket.on("message", function(data) {
-			var $newMessage = $("<li>").text(data)
+			var $newMessage = $("<div>").text(data)
 
 			$("#messages").append($newMessage);
 		})
-	}
+	};
+
+	Chat.prototype.listenForNameChange = function() {
+		this.socket.on("nicknameChangeResult", function(data) {
+			var $newMessage = $("<div>").text(data.message);
+			$("#messages").append($newMessage);
+
+		})
+	};
+
+	Chat.prototype.listenForRoomUpdate = function() {
+		this.socket.on("room update", function(data) {
+			$("#users").empty();
+
+			var users = data.nicknames;
+			console.log(data.nicknames)
+			users.forEach( function(user) {
+				var $user = $("<li>").text(user)
+				$("#users").append($user)
+			})
+		})
+	};
+
 })(this)
